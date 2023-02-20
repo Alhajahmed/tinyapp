@@ -20,15 +20,15 @@
     </div>
     <!-- _header.ejs -->
 
-    <% if (username) { %>
-    <p>Logged in as <%= username %></p>
+    <% if (user) { %>
+    <p>Logged in as <%= user.email %></p>
     <form action="/logout" method="POST">
       <button type="submit">Log Out</button>
     </form>
     <% } else { %>
     <form action="/login" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required />
+      <label for="username">Email:</label>
+      <input type="email" id="email" name="email" required />
       <button type="submit">Log In</button>
     </form>
     <% } %>
