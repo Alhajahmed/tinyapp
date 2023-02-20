@@ -114,6 +114,14 @@ app.get("/urls.json", (req, res) => {
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
+// app.js
+app.get("/login", (req, res) => {
+  const templateVars = {
+    user: users[req.cookies["user_id"]],
+  };
+  res.render("login", templateVars);
+});
+
 app.get("/register", (req, res) => {
   res.render("registration");
 });
