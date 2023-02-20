@@ -12,6 +12,13 @@ app.post("/urls", (req, res) => {
   urlDatabase[id] = longURL;
   res.redirect(`/urls/${id}`);
 });
+// app.js
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
+  res.redirect("/urls");
+});
+
 app.post("/login", (req, res) => {
   const { username } = req.body;
   res.cookie("username", username);

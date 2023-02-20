@@ -18,13 +18,18 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
+    <!-- _header.ejs -->
+
     <% if (username) { %>
-    <p>Welcome, <%= username %>!</p>
+    <p>Logged in as <%= username %></p>
+    <form action="/logout" method="POST">
+      <button type="submit">Log Out</button>
+    </form>
     <% } else { %>
     <form action="/login" method="POST">
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" />
-      <button type="submit">Login</button>
+      <input type="text" id="username" name="username" required />
+      <button type="submit">Log In</button>
     </form>
     <% } %>
   </nav>
