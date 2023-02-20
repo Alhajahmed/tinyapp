@@ -19,13 +19,23 @@ const users = {
 };
 
 app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!email || !password) {
+    res.status(400).send("Email or password cannot be empty.");
+    return;
+  }
+  if (getUserByEmail(email)) {
+    res.status(400).send("Email already exists.");
+    return;
+  }
   const userId = generateRandomString();
-
   users[userId] = {
     id: userId,
-    email: req.body.email,
-    password: req.body.password,
+    email: email,
+    password: password,
   };
+
   res.cookie("user_id", userId);
   res.redirect("/urls");
 });
@@ -36,7 +46,6 @@ app.post("/urls", (req, res) => {
   urlDatabase[id] = longURL;
   res.redirect(`/urls/${id}`);
 });
-// app.js
 
 app.post("/logout", (req, res) => {
   res.clearCookie("user_id");
@@ -122,3 +131,11 @@ function generateRandomString(length) {
   }
   return result;
 }
+const getUserByEmail = function (email) {
+  for (const userId in users) {
+    if (users[userId].email === email) {
+      return users[userId];
+    }
+  }
+  return null;
+};
