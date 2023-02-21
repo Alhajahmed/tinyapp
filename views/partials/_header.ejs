@@ -20,6 +20,7 @@
     </div>
     <% if (user) { %>
     <form action="/logout" method="POST">
+      <span class="nav-item"><%= user.email %> </span>
       <button type="submit">Log Out</button>
     </form>
     <% } else { %>
@@ -28,3 +29,8 @@
     <% } %>
   </nav>
 </header>
+<style>
+  .nav-item {
+    color: white;
+  }
+</style>

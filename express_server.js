@@ -29,22 +29,27 @@ app.post("/register", (req, res) => {
     res.status(400).send("Email already exists.");
     return;
   }
-  const userId = generateRandomString();
+  const userId = generateRandomString(7);
   users[userId] = {
     id: userId,
     email: email,
     password: password,
   };
-
+  console.log(users);
   res.cookie("user_id", userId);
   res.redirect("/urls");
 });
 
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
-  const id = generateRandomString(6);
-  urlDatabase[id] = longURL;
-  res.redirect(`/urls/${id}`);
+  const user = users[req.cookies["user_id"]];
+  if (!user) {
+    res.send("You must login/register");
+  } else {
+    const id = generateRandomString(6);
+    urlDatabase[id] = longURL;
+    res.redirect(`/urls/${id}`);
+  }
 });
 
 app.post("/logout", (req, res) => {
@@ -81,7 +86,11 @@ app.post("/urls/:id", (req, res) => {
 });
 app.get("/u/:id", (req, res) => {
   const longURL = urlDatabase[req.params.id];
-  res.redirect(longURL);
+  if (!longURL) {
+    res.send("URL Ids do not exist");
+  } else {
+    res.redirect(longURL);
+  }
 });
 app.get("/urls/:id/edit", (req, res) => {
   const { id } = req.params;
@@ -93,10 +102,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com",
 };
 app.get("/urls/new", (req, res) => {
+  const user = users[req.cookies["user_id"]];
   const templateVars = {
-    user: users[req.cookies["user_id"]],
+    user: user,
   };
-  res.render("urls_new", templateVars);
+  if (!user) {
+    res.redirect("/login");
+  } else {
+    res.render("urls_new", templateVars);
+  }
 });
 app.get("/urls/:id", (req, res) => {
   const templateVars = {
@@ -126,14 +140,24 @@ app.get("/hello", (req, res) => {
 });
 // app.js
 app.get("/login", (req, res) => {
-  const templateVars = {
-    user: users[req.cookies["user_id"]],
-  };
-  res.render("login", templateVars);
+  const user = users[req.cookies["user_id"]];
+  if (user) {
+    res.redirect("/urls");
+  } else {
+    const templateVars = {
+      user: user,
+    };
+    res.render("login", templateVars);
+  }
 });
 
 app.get("/register", (req, res) => {
-  res.render("registration");
+  const user = users[req.cookies["user_id"]];
+  if (user) {
+    res.redirect("/urls");
+  } else {
+    res.render("registration");
+  }
 });
 
 app.listen(PORT, () => {
