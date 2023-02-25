@@ -1,4 +1,4 @@
-function generateRandomString(length) {
+const generateRandomString = (length) => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
@@ -6,7 +6,7 @@ function generateRandomString(length) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
-}
+};
 
 const getUserByEmail = function (email, users) {
   for (const userId in users) {
@@ -17,7 +17,7 @@ const getUserByEmail = function (email, users) {
   return undefined;
 };
 
-let urlsForUser = (id) => {
+const urlsForUser = (id, urlDatabase) => {
   for (let i in urlDatabase) {
     if (urlDatabase[i].userID === id) {
       return urlDatabase[i].longURL;
@@ -25,7 +25,5 @@ let urlsForUser = (id) => {
   }
   return null;
 };
-
-module.exports = { generateRandomString, getUserByEmail, urlsForUser };
 
 module.exports = { generateRandomString, getUserByEmail, urlsForUser };
