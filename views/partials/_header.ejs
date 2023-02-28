@@ -1,4 +1,9 @@
 <header>
+  <style>
+    .nav-item {
+      color: white;
+    }
+  </style>
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
     <a class="navbar-brand" href="/urls">TinyApp</a>
     <button
@@ -23,14 +28,10 @@
       <span class="nav-item"><%= user.email %> </span>
       <button type="submit">Log Out</button>
     </form>
-    <% } else { %>
+    <% } %> <% if (!user) { %>
     <a class="nav-item nav-link" href="/register">Register</a>
     <a class="nav-item nav-link" href="/login">Login</a>
+
     <% } %>
   </nav>
 </header>
-<style>
-  .nav-item {
-    color: white;
-  }
-</style>

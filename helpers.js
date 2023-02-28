@@ -18,12 +18,13 @@ const getUserByEmail = function (email, users) {
 };
 
 const urlsForUser = (id, urlDatabase) => {
+  let userUrls = {};
   for (let i in urlDatabase) {
     if (urlDatabase[i].userID === id) {
-      return urlDatabase[i].longURL;
+      userUrls[i] = urlDatabase[i];
     }
   }
-  return null;
+  return userUrls;
 };
 
 module.exports = { generateRandomString, getUserByEmail, urlsForUser };
